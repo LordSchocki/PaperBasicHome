@@ -1,0 +1,4 @@
+name: PaperBasicHome
+version: '${version}'
+main: me.ventilover.paperbasichome.PaperBasicHome
+api-version: '1.20'
