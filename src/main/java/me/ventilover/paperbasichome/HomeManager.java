@@ -40,7 +40,7 @@ public class HomeManager { //singelton class for management
 
     public void addPlayerHome(Player player,Location location,String homeName){ //method to add a new home
         playerHomesHashMapHashMap.get(player).createPlayerHome(location,homeName);
-
+        player.sendMessage("Created a new home!");
     }
 
     public void createPlayerHomesClass(Player player){ //method to create a playerhomesclass for a new player
