@@ -42,6 +42,7 @@ public class HomeTeleportCommand extends Command {
 
         try{
             teleportPlayerToHome(player,homeManager.getPlayerHome(player,homeName));
+            player.sendMessage("Teleporting home!");
         }catch (Exception ex){
             player.sendMessage("No such home name!");
             return true;
