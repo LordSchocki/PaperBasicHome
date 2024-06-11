@@ -1,7 +1,6 @@
 package me.ventilover.paperbasichome;
 
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -10,7 +9,7 @@ public class HomeManager { //singelton class for management
 
     private static HomeManager instance;
 
-    private static final HashMap<Player, Location>playerLocationHashMap = new HashMap<>();
+    private static final HashMap<Player, PlayerHomes> playerHomesHashMapHashMap = new HashMap<>();
 
     private HomeManager(){
         //private constructor to interrupt init
@@ -24,28 +23,31 @@ public class HomeManager { //singelton class for management
         return instance;
     }
 
-    public boolean playerHasHome(Player player){ //method to check if a player already owns a home
-        return playerLocationHashMap.containsKey(player);
+    public boolean playerHasHome(Player player){
+        return getPlayerHomesClass(player).checkIfPlayerHasHomes();
     }
 
-    public Location getPlayerHomeLocation(Player player){ //method to get the home location of a player (useful for teleportation)
-        return playerLocationHashMap.get(player);
-
-    }
-
-    public void addPlayerHome(Player player,Location location){ //method to add a new home to the hashmap
-        if (player.getWorld().getEnvironment() == World.Environment.NORMAL){ //only homes in the normal world for now
-            playerLocationHashMap.put(player,location);
-        }
-        else {
-            player.sendMessage("You can only set homes in the normal world");
-        }
+    public PlayerHomes getPlayerHomesClass(Player player){ //method to get the home location of a player
+        // (useful for teleportation)
+        return playerHomesHashMapHashMap.get(player);
 
     }
 
-    public void removePlayerHome(Player player){ //method to remove a home
-        playerLocationHashMap.remove(player);
+    public Home getPlayerHome(Player player,String homeName) throws Exception { //get the player home can cause exception when no such homename exist
+        PlayerHomes playerHomesClass= getPlayerHomesClass(player);
+        return playerHomesClass.getHomeByName(homeName);
     }
+
+    public void addPlayerHome(Player player,Location location,String homeName){ //method to add a new home
+        playerHomesHashMapHashMap.get(player).createPlayerHome(location,homeName);
+
+    }
+
+    public void createPlayerHomesClass(Player player){ //method to create a playerhomesclass for a new player
+        playerHomesHashMapHashMap.put(player,new PlayerHomes());
+    }
+
+
 
 
 }

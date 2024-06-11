@@ -13,18 +13,47 @@ public class SetHomeCommand extends Command {
     }
     @Override
     public boolean execute(@NotNull CommandSender commandSender, @NotNull String s, @NotNull String[] strings) {
+
+        //check for a home name
+        if (!checkIfValidCommand(commandSender,strings)){
+            return true; //don't run the command further
+        }
+
+        // then create the home
+        String homeName = strings[0]; //the home name from the argument
+
         HomeManager homeManager = HomeManager.getInstance();
         if (commandSender instanceof Player player){ //cast the sender to a player
-            if (homeManager.playerHasHome(player)){
-                player.sendMessage("You already have an home!"); //check if the player already has a home
+
+            if (homeManager.getPlayerHomesClass(player).checkHomeCapacityLessThanThree()){//check if the player already has 3 homes
+
+                homeManager.addPlayerHome(player,player.getLocation(),homeName);// if they don't have 3 homes,
+                // they can set one
             }
             else {
-                homeManager.addPlayerHome(player,player.getLocation());// if it's their first home, let them set the home
+                player.sendMessage("You already have 3 homes");
             }
         }
-        else {
-            commandSender.sendPlainMessage("Only players can use this command!"); //only player can set homes
+
+
+
+        return true; //return that the command has run
+    }
+
+    public boolean checkIfValidCommand(CommandSender commandSender, String[] strings){
+        if (commandSender instanceof  Player player){
+            if (strings.length != 1){
+                player.sendMessage("Please enter one valid home name!");
+                return false;
+            }
+            else {
+                return true;
+            }
         }
-        return false;
+
+        else {
+            commandSender.sendMessage("Only players can use this");
+            return false;
+        }
     }
 }

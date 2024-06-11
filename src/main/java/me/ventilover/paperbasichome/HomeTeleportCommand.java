@@ -1,6 +1,5 @@
 package me.ventilover.paperbasichome;
 
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,27 +13,58 @@ public class HomeTeleportCommand extends Command {
         this.setDescription("Command to teleport home");
     }
 
-    public void teleportPlayerToHome(Player player, Location location){
-        player.teleport(location); //method to teleport the player to a location
+    public void teleportPlayerToHome(Player player,Home home){
+        player.teleport(home.getHomeLocation()); //method to teleport the player to a location
     }
 
     @Override
     public boolean execute(@NotNull CommandSender commandSender, @NotNull String s, @NotNull String[] strings) {
-        HomeManager homeManager = HomeManager.getInstance();
-        if (commandSender instanceof Player player){ //first checking if a player is using the command
-            if (homeManager.playerHasHome(player)){
-                teleportPlayerToHome(player,homeManager.getPlayerHomeLocation(player)); //if it is then teleport the player to the home location
-                player.sendMessage("Teleported home!");
+
+        HomeManager homeManager = HomeManager.getInstance(); //get the home manager
+
+        //check for a home name
+        if (!checkIfValidCommand(commandSender,strings)){
+            return true; //don't run the command further
+        }
+
+        Player player = (Player) commandSender; //cast the commandSender to a player
+
+        if (!homeManager.playerHasHome(player)){
+            //player doesn't have anyhomes so none to tp to
+            player.sendMessage("You dont have any home to teleport to!");
+            return true;
+        }
+
+        // then get the home name
+        String homeName = strings[0]; //the home name from the argument
+
+
+
+        try{
+            teleportPlayerToHome(player,homeManager.getPlayerHome(player,homeName));
+        }catch (Exception ex){
+            player.sendMessage("No such home name!");
+            return true;
+        }
+
+
+        return true;
+    }
+
+    public boolean checkIfValidCommand(CommandSender commandSender, String[] strings){
+        if (commandSender instanceof  Player player){
+            if (strings.length != 1){
+                player.sendMessage("Please enter one valid home name!");
+                return false;
             }
             else {
-                player.sendMessage("You need to have a home to teleport there!"); //else they have to create a home first
+                return true;
             }
         }
+
         else {
-            commandSender.sendPlainMessage("You need to be a player in order to use this command"); //if it isn't a player, e.g., a command block cant use the command
+            commandSender.sendMessage("Only players can use this");
+            return false;
         }
-
-
-        return false;
     }
 }
