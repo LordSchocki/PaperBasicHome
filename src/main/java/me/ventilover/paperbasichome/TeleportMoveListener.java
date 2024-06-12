@@ -37,7 +37,7 @@ public class TeleportMoveListener implements Listener {
             HomeManager.getInstance().getPlayerTasks().remove(player); //also remove the task from the hashmap
             HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingFalse();
             //send the player a cancellation message
-            player.sendMessage(" You moved while teleporting!");
+            player.sendMessage(HomeManager.getInstance().makeErrorMessage("You moved while teleporting"));
         }
 
     }
