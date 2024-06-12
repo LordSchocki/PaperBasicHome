@@ -5,11 +5,14 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
+
 public class HomeManager { //singelton class for management
 
     private static HomeManager instance;
 
     private static final HashMap<Player, PlayerHomes> playerHomesHashMapHashMap = new HashMap<>();
+
+    private HashMap<Player,Integer> playerTasks = new HashMap<>();
 
     private HomeManager(){
         //private constructor to interrupt init
@@ -47,7 +50,7 @@ public class HomeManager { //singelton class for management
         playerHomesHashMapHashMap.put(player,new PlayerHomes());
     }
 
-
-
-
+    public HashMap<Player, Integer> getPlayerTasks() {
+        return playerTasks;
+    }
 }
