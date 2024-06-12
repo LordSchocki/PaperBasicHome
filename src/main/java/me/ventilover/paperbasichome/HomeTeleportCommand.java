@@ -1,8 +1,6 @@
 package me.ventilover.paperbasichome;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -27,7 +25,7 @@ public class HomeTeleportCommand extends Command {
             HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingTrue(); //set the boolean variable true when the player starts teleporting
 
             //scheduler for teleporting
-            //save the task id for later
+            //saves the task id for later
             int taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(provider.getPlugin(), () -> {
                 player.teleport(home.getHomeLocation()); //teleporting the player now 5 seconds later
                 // if the scheduler doesn't get canceled
@@ -52,12 +50,8 @@ public class HomeTeleportCommand extends Command {
         Player player = (Player) commandSender; //cast the commandSender to a player
 
         if (!homeManager.playerHasHome(player)){
-            //player doesn't have anyhomes so none to tp to
-            Component message = Component.text("You dont have any home to teleport to!") //use new component to make text red
-                            .color(NamedTextColor.RED)
-                            .decorate(TextDecoration.BOLD);
-
-            player.sendMessage(message);
+            //player doesn't have any homes so none to tp to
+            player.sendMessage(homeManager.makeErrorMessage("You don't have any home to teleport to!"));
             return true;
         }
 

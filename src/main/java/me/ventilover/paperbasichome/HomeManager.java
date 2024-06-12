@@ -1,5 +1,8 @@
 package me.ventilover.paperbasichome;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -52,5 +55,12 @@ public class HomeManager { //singelton class for management
 
     public HashMap<Player, Integer> getPlayerTasks() {
         return playerTasks;
+    }
+
+    public Component makeErrorMessage(String message){ //method to make error messages
+
+        return Component.text(message) //use new component to make text red
+                .color(NamedTextColor.RED)
+                .decorate(TextDecoration.BOLD);
     }
 }
