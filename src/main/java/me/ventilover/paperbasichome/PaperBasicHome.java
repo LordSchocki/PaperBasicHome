@@ -10,6 +10,11 @@ public final class PaperBasicHome extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        //set the plugin provider
+        JavaPluginProvider provider = new JavaPluginProvider();
+        provider.setPlugin(this);
+
+
         //register the commands
         CommandMap commandMap = Bukkit.getCommandMap();
 
