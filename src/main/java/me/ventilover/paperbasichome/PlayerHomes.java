@@ -8,6 +8,9 @@ import java.util.ArrayList;
 public class PlayerHomes {
     private final ArrayList<Home> homeArrayList = new ArrayList<>(); //3 homes to hold
 
+    private boolean isTeleporting = false; //boolean to check if the player is currently teleporting
+
+
 
     public void createPlayerHome(Location location, String homeName){
         //class for creating the home
@@ -46,5 +49,17 @@ public class PlayerHomes {
 
     public ArrayList<Home> getHomeArrayList() {
         return homeArrayList;
+    }
+
+    public void setTeleportingTrue(){
+        this.isTeleporting = true;
+    }
+
+    public void setTeleportingFalse(){
+        this.isTeleporting = false;
+    }
+
+    public boolean getTeleportingState(){
+        return isTeleporting;
     }
 }
