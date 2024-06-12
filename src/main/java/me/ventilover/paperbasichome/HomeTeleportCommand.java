@@ -61,10 +61,11 @@ public class HomeTeleportCommand extends Command {
 
 
         try{
-            teleportPlayerToHome(player,homeManager.getPlayerHome(player,homeName));
+            Home home = homeManager.getPlayerHome(player,homeName); //try block to catch if the home is null
+            teleportPlayerToHome(player,home);
 
         }catch (Exception ex){
-            player.sendMessage(homeManager.makeConfirmMessage("No such home name!"));
+            player.sendMessage(homeManager.makeErrorMessage("No such home name!"));
             return true;
         }
 

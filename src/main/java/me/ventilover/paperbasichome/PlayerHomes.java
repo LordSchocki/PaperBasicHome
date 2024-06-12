@@ -40,7 +40,7 @@ public class PlayerHomes {
         }
 
         //if the homeToFind is still null we didn't find a home
-        if (homeNameToFind == null){
+        if (homeToFind == null){
             throw new Exception("No home has been found");
         }
 
