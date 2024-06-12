@@ -21,7 +21,7 @@ public class HomeListCommand extends Command {
                 player.sendMessage(createHomeMessage(HomeManager.getInstance().getPlayerHomesClass(player))); //if the player has homes send them the list
             }
             else {
-                player.sendMessage("You dont have any homes!"); //message if the player does not have any homes
+                player.sendMessage(HomeManager.getInstance().makeErrorMessage("You don't have any homes!")); //message if the player does not have any homes
             }
         }
         else {

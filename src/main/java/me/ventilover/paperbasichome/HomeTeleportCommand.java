@@ -19,7 +19,7 @@ public class HomeTeleportCommand extends Command {
 
     public void teleportPlayerToHome(Player player,Home home){
         if (HomeManager.getInstance().getPlayerHomesClass(player).getTeleportingState()){
-            player.sendMessage("You are already teleporting!");
+            player.sendMessage(HomeManager.getInstance().makeErrorMessage("You are already teleporting!"));
         }
         else {
             HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingTrue(); //set the boolean variable true when the player starts teleporting
@@ -30,7 +30,7 @@ public class HomeTeleportCommand extends Command {
                 player.teleport(home.getHomeLocation()); //teleporting the player now 5 seconds later
                 // if the scheduler doesn't get canceled
                 HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingFalse();//stop teleporting
-                player.sendMessage("Teleporting home!");
+                player.sendMessage(HomeManager.getInstance().makeConfirmMessage("Teleported home!"));
             }, 5L * 5L);
             // now put the task it into the hashmap
             HomeManager.getInstance().getPlayerTasks().put(player,taskId);
@@ -64,7 +64,7 @@ public class HomeTeleportCommand extends Command {
             teleportPlayerToHome(player,homeManager.getPlayerHome(player,homeName));
 
         }catch (Exception ex){
-            player.sendMessage("No such home name!");
+            player.sendMessage(homeManager.makeConfirmMessage("No such home name!"));
             return true;
         }
 
