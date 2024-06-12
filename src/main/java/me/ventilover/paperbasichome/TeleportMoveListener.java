@@ -1,6 +1,7 @@
 package me.ventilover.paperbasichome;
 
 
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -22,20 +23,24 @@ public class TeleportMoveListener implements Listener {
             cancelTaskForPlayer(event.getPlayer()); //cancel the scheduler
         }
 
-
-
     }
 
     public void cancelTaskForPlayer(Player player){
+
         //get the taskId
-        int taskId = HomeManager.getInstance().getPlayerTasks().get(player); //first get the scheduler task
 
-        Bukkit.getScheduler().cancelTask(taskId); //then cancel it
+        Integer taskId = HomeManager.getInstance().getPlayerTasks().get(player); //first get the scheduler task
 
-        HomeManager.getInstance().getPlayerTasks().remove(player); //also remove the task from the hashmap
 
-        //send the player a cancellation message
-        player.sendMessage("&a You moved while teleporting!");
+
+        if (taskId != null) {
+            Bukkit.getScheduler().cancelTask(taskId); //then cancel it
+
+            HomeManager.getInstance().getPlayerTasks().remove(player); //also remove the task from the hashmap
+            HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingFalse();
+            //send the player a cancellation message
+            player.sendMessage(" You moved while teleporting!");
+        }
 
     }
 
