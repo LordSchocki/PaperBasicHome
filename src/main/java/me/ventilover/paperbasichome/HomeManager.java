@@ -12,7 +12,7 @@ public class HomeManager { //singelton class for management
 
     private static final HashMap<Player, PlayerHomes> playerHomesHashMapHashMap = new HashMap<>();
 
-    private HashMap<Player,Integer> playerTasks = new HashMap<>();
+    private final HashMap<Player,Integer> playerTasks = new HashMap<>();
 
     private HomeManager(){
         //private constructor to interrupt init
