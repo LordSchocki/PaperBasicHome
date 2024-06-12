@@ -1,5 +1,8 @@
 package me.ventilover.paperbasichome;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,17 +21,18 @@ public class HomeTeleportCommand extends Command {
 
     public void teleportPlayerToHome(Player player,Home home){
         if (HomeManager.getInstance().getPlayerHomesClass(player).getTeleportingState()){
-            player.sendMessage("&aYou are already teleporting!");
-
+            player.sendMessage("You are already teleporting!");
         }
         else {
             HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingTrue(); //set the boolean variable true when the player starts teleporting
+
             //scheduler for teleporting
-//save the task id for later
+            //save the task id for later
             int taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(provider.getPlugin(), () -> {
                 player.teleport(home.getHomeLocation()); //teleporting the player now 5 seconds later
                 // if the scheduler doesn't get canceled
                 HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingFalse();//stop teleporting
+                player.sendMessage("Teleporting home!");
             }, 5L * 5L);
             // now put the task it into the hashmap
             HomeManager.getInstance().getPlayerTasks().put(player,taskId);
@@ -49,7 +53,11 @@ public class HomeTeleportCommand extends Command {
 
         if (!homeManager.playerHasHome(player)){
             //player doesn't have anyhomes so none to tp to
-            player.sendMessage("You dont have any home to teleport to!");
+            Component message = Component.text("You dont have any home to teleport to!") //use new component to make text red
+                            .color(NamedTextColor.RED)
+                            .decorate(TextDecoration.BOLD);
+
+            player.sendMessage(message);
             return true;
         }
 
@@ -60,7 +68,7 @@ public class HomeTeleportCommand extends Command {
 
         try{
             teleportPlayerToHome(player,homeManager.getPlayerHome(player,homeName));
-            player.sendMessage("Teleporting home!");
+
         }catch (Exception ex){
             player.sendMessage("No such home name!");
             return true;
