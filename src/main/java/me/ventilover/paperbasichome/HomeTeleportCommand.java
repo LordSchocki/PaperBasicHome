@@ -23,14 +23,12 @@ public class HomeTeleportCommand extends Command {
         }
         else {
             HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingTrue(); //set the boolean variable true when the player starts teleporting
-            int taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(provider.getPlugin(), new Runnable() { //scheduler for teleporting
-                //save the task id for later
-                @Override
-                public void run() {
-                    player.teleport(home.getHomeLocation()); //teleporting the player now 5 seconds later
-                    // if the scheduler doesn't get canceled
-                    HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingFalse();//stop teleporting
-                }
+            //scheduler for teleporting
+//save the task id for later
+            int taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(provider.getPlugin(), () -> {
+                player.teleport(home.getHomeLocation()); //teleporting the player now 5 seconds later
+                // if the scheduler doesn't get canceled
+                HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingFalse();//stop teleporting
             }, 5L * 5L);
             // now put the task it into the hashmap
             HomeManager.getInstance().getPlayerTasks().put(player,taskId);
