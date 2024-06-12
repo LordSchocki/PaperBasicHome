@@ -1,5 +1,6 @@
 package me.ventilover.paperbasichome;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -7,14 +8,33 @@ import org.jetbrains.annotations.NotNull;
 
 public class HomeTeleportCommand extends Command {
 
+    JavaPluginProvider provider;
 
     public HomeTeleportCommand(){
         super("home");
         this.setDescription("Command to teleport home");
+        provider = new JavaPluginProvider();
     }
 
     public void teleportPlayerToHome(Player player,Home home){
-        player.teleport(home.getHomeLocation()); //method to teleport the player to a location
+        if (HomeManager.getInstance().getPlayerHomesClass(player).getTeleportingState()){
+            player.sendMessage("&aYou are already teleporting!");
+
+        }
+        else {
+            HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingTrue(); //set the boolean variable true when the player starts teleporting
+            int taskId = Bukkit.getScheduler().scheduleSyncDelayedTask(provider.getPlugin(), new Runnable() { //scheduler for teleporting
+                //save the task id for later
+                @Override
+                public void run() {
+                    player.teleport(home.getHomeLocation()); //teleporting the player now 5 seconds later
+                    // if the scheduler doesn't get canceled
+                    HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingFalse();//stop teleporting
+                }
+            }, 5L * 5L);
+            // now put the task it into the hashmap
+            HomeManager.getInstance().getPlayerTasks().put(player,taskId);
+        }
     }
 
     @Override
