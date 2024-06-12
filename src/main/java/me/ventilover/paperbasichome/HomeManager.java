@@ -63,4 +63,12 @@ public class HomeManager { //singelton class for management
                 .color(NamedTextColor.RED)
                 .decorate(TextDecoration.BOLD);
     }
+
+    public Component makeConfirmMessage(String message){ //method to make error messages
+
+        return Component.text(message) //use new component to make text red
+                .color(NamedTextColor.DARK_GREEN)
+                .decorate(TextDecoration.ITALIC)
+                .decorate(TextDecoration.BOLD);
+    }
 }
