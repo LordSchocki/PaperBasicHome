@@ -17,6 +17,11 @@ public class HomeListCommand extends Command {
     public boolean execute(@NotNull CommandSender commandSender, @NotNull String s, @NotNull String[] strings) {
 
         if (commandSender instanceof Player player){
+
+            if (!player.hasPermission("paperbasichome.homes")){
+                player.sendMessage(HomeManager.getInstance().makeErrorMessage("You do not have valid Permissions"));
+            }
+
             if (HomeManager.getInstance().playerHasHome(player)){
                 player.sendMessage(createHomeMessage(HomeManager.getInstance().getPlayerHomesClass(player))); //if the player has homes send them the list
             }
