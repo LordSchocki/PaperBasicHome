@@ -75,6 +75,9 @@ public class HomeTeleportCommand extends Command {
 
     public boolean checkIfValidCommand(CommandSender commandSender, String[] strings){
         if (commandSender instanceof  Player player){
+            if (!player.hasPermission("paperbasichome.home")){
+                player.sendMessage(HomeManager.getInstance().makeErrorMessage("You do not have valid Permissions"));
+            }
             if (strings.length != 1){
                 player.sendMessage("Please enter one valid home name!");
                 return false;

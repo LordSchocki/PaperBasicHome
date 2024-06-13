@@ -24,6 +24,9 @@ public class SetHomeCommand extends Command {
 
         HomeManager homeManager = HomeManager.getInstance();
         if (commandSender instanceof Player player){ //cast the sender to a player
+            if (!player.hasPermission("paperbasichome.sethome")){
+                player.sendMessage(HomeManager.getInstance().makeErrorMessage("You do not have valid Permissions"));
+            }
 
             if (homeManager.getPlayerHomesClass(player).checkHomeCapacityLessThanThree()){//check if the player already has 3 homes
 
