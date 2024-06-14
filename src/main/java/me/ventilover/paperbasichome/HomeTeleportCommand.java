@@ -4,10 +4,14 @@ package me.ventilover.paperbasichome;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class HomeTeleportCommand extends Command {
+import java.util.List;
+
+public class HomeTeleportCommand extends Command implements TabCompleter {
 
     JavaPluginProvider provider;
 
@@ -91,5 +95,16 @@ public class HomeTeleportCommand extends Command {
             commandSender.sendMessage("Only players can use this");
             return false;
         }
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        if (command.getName().equalsIgnoreCase("home")){ //auto complete for the home command
+            if (strings.length == 1 && commandSender instanceof Player player){ //check if it is even a player
+                // and is typing
+                return HomeManager.getInstance().getPlayerHomesClass(player).getHomeNameArrayList();//return the list as an arraylist of the home names
+            }
+        }
+        return null; //else return nothing
     }
 }

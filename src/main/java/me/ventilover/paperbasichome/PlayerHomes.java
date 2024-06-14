@@ -28,6 +28,17 @@ public class PlayerHomes {
         return !homeArrayList.isEmpty();
     }
 
+    public ArrayList<String> getHomeNameArrayList(){// method to get the homes into an home name array list
+        //useful for the auto complete
+
+        ArrayList<String>resultArray = new ArrayList<>(); //declare a new arraylist
+
+        for (Home home : homeArrayList){
+            resultArray.add(home.getHomeName()); //fill it with home names
+        }
+        return resultArray;//return it
+    }
+
 
     public Home getHomeByName(String homeNameToFind) throws Exception {
         Home homeToFind = null;
