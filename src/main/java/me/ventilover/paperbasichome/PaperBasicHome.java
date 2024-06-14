@@ -30,11 +30,17 @@ public final class PaperBasicHome extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new TeleportMoveListener(),this);
         Bukkit.getPluginManager().registerEvents(new LeaveListener(),this);
 
+        //Load the hashmaps
+        DataSafeManager.getInstance().loadIdHashMap();
+
+        //Log the start of the plugin
         getLogger().info("PaperBasicHome has started!");
     }
 
     @Override
     public void onDisable() {
+        //safe the hashmap
+        DataSafeManager.getInstance().saveHomesToFile();
         getLogger().info("PaperBasicHome has stopped!");
     }
 }
