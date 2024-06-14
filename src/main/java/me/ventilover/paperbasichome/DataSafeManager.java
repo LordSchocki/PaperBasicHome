@@ -23,8 +23,7 @@ public class DataSafeManager { //singleton class
     }
 
     private File getDataFolder(){
-        JavaPluginProvider provider = new JavaPluginProvider();
-        return provider.getPlugin().getDataFolder();//Get the dataFolder of the plugin
+        return HomeManager.getInstance().getJavaPlugin().getDataFolder();//Get the dataFolder of the plugin
     }
 
 
@@ -33,8 +32,7 @@ public class DataSafeManager { //singleton class
         if(!dataFolder.exists()){ //if it doesn't exist yet create it
             boolean result = dataFolder.mkdirs();
             if (!result){
-                JavaPluginProvider provider = new JavaPluginProvider();
-                provider.getPlugin().getLogger().info("Did not achieve to create a Folder for data"); //error message if mkdirs dont work
+                HomeManager.getInstance().getJavaPlugin().getLogger().info("Did not achieve to create a Folder for data"); //error message if mkdirs dont work
             }
         }
 
@@ -50,8 +48,7 @@ public class DataSafeManager { //singleton class
         try{
             config.save(file); //safe the config
         }catch (Exception ex){
-            JavaPluginProvider provider = new JavaPluginProvider();
-            provider.getPlugin().getLogger().info(ex.getCause()+ex.getMessage());
+            HomeManager.getInstance().getJavaPlugin().getLogger().info(ex.getCause()+ex.getMessage());
         }
     }
 
@@ -72,8 +69,7 @@ public class DataSafeManager { //singleton class
                 PlayerHomes homes = PlayerHomes.deserialize(Objects.requireNonNull(config.getConfigurationSection(uuidString)).getValues(false)); // use deserialization
                 HomeManager.getInstance().getPlayerIdHashMap().put(uuid, homes);
             } catch (IllegalArgumentException ex) {
-                JavaPluginProvider provider = new JavaPluginProvider();
-                provider.getPlugin().getLogger().info("Error loading home for UUID " + uuidString + ": " + ex.getMessage());
+                HomeManager.getInstance().getJavaPlugin().getLogger().info("Error loading home for UUID " + uuidString + ": " + ex.getMessage());
             }
         }
     }
