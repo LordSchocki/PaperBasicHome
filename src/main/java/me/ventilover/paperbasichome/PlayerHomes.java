@@ -3,6 +3,8 @@ package me.ventilover.paperbasichome;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class PlayerHomes {
@@ -72,5 +74,27 @@ public class PlayerHomes {
 
     public boolean getTeleportingState(){
         return isTeleporting;
+    }
+
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new HashMap<>();
+        ArrayList<Map<String, Object>> homesList = new ArrayList<>();
+        for (Home home : homeArrayList) {
+            homesList.add(home.serialize());
+        }
+        map.put("homes", homesList);
+        return map;
+    }
+
+    public static PlayerHomes deserialize(Map<String, Object> map) { //complicated deserializing of the playerhomes class
+        PlayerHomes playerHomes = new PlayerHomes();
+        @SuppressWarnings("unchecked") //a bit unsafe but cant really check
+        ArrayList<Map<String, Object>> homesList = (ArrayList<Map<String, Object>>) map.get("homes"); //
+        if (homesList != null) {
+            for (Map<String, Object> homeMap : homesList) {
+                playerHomes.homeArrayList.add(Home.deserialize(homeMap));
+            }
+        }
+        return playerHomes;
     }
 }

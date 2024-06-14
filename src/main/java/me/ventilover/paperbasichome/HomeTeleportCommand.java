@@ -100,7 +100,7 @@ public class HomeTeleportCommand extends Command implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (command.getName().equalsIgnoreCase("home")){ //auto complete for the home command
-            if (strings.length == 1 && commandSender instanceof Player player){ //check if it is even a player
+            if (commandSender instanceof Player player){ //check if it is even a player
                 // and is typing
                 return HomeManager.getInstance().getPlayerHomesClass(player).getHomeNameArrayList();//return the list as an arraylist of the home names
             }

@@ -1,6 +1,7 @@
 package me.ventilover.paperbasichome;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
+import java.util.Objects;
 import java.util.UUID;
 
 public class DataSafeManager { //singleton class
@@ -43,7 +44,7 @@ public class DataSafeManager { //singleton class
         for (UUID uuid : HomeManager.getInstance().getPlayerIdHashMap().keySet()){ //looping through the hashmap
             PlayerHomes homes = HomeManager.getInstance().getPlayerIdHashMap().get(uuid); //for each uuid get the playerHomes instance
             //safe the data now
-            config.set(uuid.toString(),homes); //safe the playerHoms instance into the config
+            config.set(uuid.toString(),homes.serialize()); //safe the playerHoms instance into the config
         }
 
         try{
@@ -65,11 +66,15 @@ public class DataSafeManager { //singleton class
 
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file); //load the config again
 
-        for (String uuidString : config.getKeys(false)){ //get the uuid out of the config and loop through it
-            UUID uuid = UUID.fromString(uuidString);// convert the string into an actualy uuid
-            PlayerHomes homes = (PlayerHomes) config.get(uuidString); // cast the Playerhomes and safe it into an instance
-            //load the data into the hashmap
-            HomeManager.getInstance().getPlayerIdHashMap().put(uuid, homes);
+        for (String uuidString : config.getKeys(false)){
+            try {
+                UUID uuid = UUID.fromString(uuidString);
+                PlayerHomes homes = PlayerHomes.deserialize(Objects.requireNonNull(config.getConfigurationSection(uuidString)).getValues(false)); // use deserialization
+                HomeManager.getInstance().getPlayerIdHashMap().put(uuid, homes);
+            } catch (IllegalArgumentException ex) {
+                JavaPluginProvider provider = new JavaPluginProvider();
+                provider.getPlugin().getLogger().info("Error loading home for UUID " + uuidString + ": " + ex.getMessage());
+            }
         }
     }
 }
