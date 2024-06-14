@@ -26,9 +26,9 @@ public final class PaperBasicHome extends JavaPlugin {
         commandMap.register("home",homeTeleport);
         commandMap.register("homes",homeListCmd);
         // register the event listener
-        Bukkit.getPluginManager().registerEvents(new FirstJoinListener(),this);
+        Bukkit.getPluginManager().registerEvents(new JoinListener(),this);
         Bukkit.getPluginManager().registerEvents(new TeleportMoveListener(),this);
-
+        Bukkit.getPluginManager().registerEvents(new LeaveListener(),this);
 
         getLogger().info("PaperBasicHome has started!");
     }
