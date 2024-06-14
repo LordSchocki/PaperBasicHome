@@ -9,6 +9,10 @@ commands:
     description: Use to set a new home!
     usage: /sethome
     permission: paperbasichome.sethome
+  delhome:
+    description: Use to remove a home
+    usage: /delhome
+    permission: paperbasichome.delhome
   home:
     description: Teleport to a home
     usage: /home [Home Name]
@@ -27,4 +31,7 @@ permissions:
     default: true
   paperbasichome.homes:
     description: Perm to list homes
+    default: true
+  paperbasichome.delhome:
+    description: Perm to remove homes
     default: true
