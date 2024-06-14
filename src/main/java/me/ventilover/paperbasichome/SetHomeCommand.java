@@ -34,7 +34,7 @@ public class SetHomeCommand extends Command {
                 // they can set one
             }
             else {
-                player.sendMessage("You already have 3 homes");
+                player.sendMessage(homeManager.makeErrorMessage("You already have 3 homes!"));
             }
         }
 
@@ -46,7 +46,7 @@ public class SetHomeCommand extends Command {
     public boolean checkIfValidCommand(CommandSender commandSender, String[] strings){
         if (commandSender instanceof  Player player){
             if (strings.length != 1){
-                player.sendMessage("Please enter one valid home name!");
+                player.sendMessage(HomeManager.getInstance().makeErrorMessage("Please enter one valid home name!"));
                 return false;
             }
             else {
