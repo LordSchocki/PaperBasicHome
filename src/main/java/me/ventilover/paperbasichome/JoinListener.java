@@ -11,7 +11,7 @@ public class JoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         HomeManager homeManager = HomeManager.getInstance(); //homemanager variable
 
-         if (!homeManager.hasPlayerHomes(event.getPlayer().getUniqueId())){ //if the player does not yet have one uuid in the hashmap
+         if (!homeManager.hasPlayerHomesInstance(event.getPlayer().getUniqueId())){ //if the player does not yet have one uuid in the hashmap
              homeManager.createPlayerHomesClass(event.getPlayer()); //create the uuid in the saving hashmap
              homeManager.attachPlayerHomesHashmap(event.getPlayer(), homeManager.getPlayerHomesClassFromId(event.getPlayer().getUniqueId()) ); //then update the local hashmap
          }

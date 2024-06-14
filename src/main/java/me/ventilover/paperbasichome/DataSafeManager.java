@@ -5,13 +5,16 @@ import java.util.UUID;
 
 public class DataSafeManager { //singleton class
 
-    private static DataSafeManager instance;
+    // this is a class for handling the two hashmap systems
+
+    private static DataSafeManager instance; //instance object
+
 
     private DataSafeManager(){
         //private constructor
     }
 
-    public static DataSafeManager getInstance() { //to get the safe mananger
+    public static DataSafeManager getInstance() { //to get the safe manager
         if(instance==null){
             instance = new DataSafeManager();
         }
@@ -19,14 +22,14 @@ public class DataSafeManager { //singleton class
     }
 
     private File getDataFolder(){
-        JavaPluginProvider prover = new JavaPluginProvider();
-        return prover.getPlugin().getDataFolder();
+        JavaPluginProvider provider = new JavaPluginProvider();
+        return provider.getPlugin().getDataFolder();//Get the dataFolder of the plugin
     }
 
 
-    public void saveHomesToFile(){
-        File dataFolder = getDataFolder();
-        if(!dataFolder.exists()){
+    public void saveHomesToFile(){ //to save homes into the yaml
+        File dataFolder = getDataFolder(); //get the directory
+        if(!dataFolder.exists()){ //if it doesn't exist yet create it
             boolean result = dataFolder.mkdirs();
             if (!result){
                 JavaPluginProvider provider = new JavaPluginProvider();
@@ -34,17 +37,17 @@ public class DataSafeManager { //singleton class
             }
         }
 
-        File file = new File(dataFolder,"playerHomes.yml");
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+        File file = new File(dataFolder,"playerHomes.yml"); //make a file object for the actual yaml
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);// load the config for the file and put it into a variable
 
-        for (UUID uuid : HomeManager.getInstance().getPlayerIdHashMap().keySet()){
-            PlayerHomes homes = HomeManager.getInstance().getPlayerIdHashMap().get(uuid);
+        for (UUID uuid : HomeManager.getInstance().getPlayerIdHashMap().keySet()){ //looping through the hashmap
+            PlayerHomes homes = HomeManager.getInstance().getPlayerIdHashMap().get(uuid); //for each uuid get the playerHomes instance
             //safe the data now
-            config.set(uuid.toString(),homes);
+            config.set(uuid.toString(),homes); //safe the playerHoms instance into the config
         }
 
         try{
-            config.save(file); //safe  the config
+            config.save(file); //safe the config
         }catch (Exception ex){
             JavaPluginProvider provider = new JavaPluginProvider();
             provider.getPlugin().getLogger().info(ex.getCause()+ex.getMessage());
@@ -55,16 +58,16 @@ public class DataSafeManager { //singleton class
     public void loadIdHashMap(){
         File dataFolder = getDataFolder(); //get the data folder
         File file = new File(dataFolder, "playerHomes.yml"); //create the file object
-        // if it doesnt exist stop
+        // if it doesn't exist stop
         if (!file.exists()){
             return;
         }
 
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file); //load the config again
 
-        for (String uuidString : config.getKeys(false)){
-            UUID uuid = UUID.fromString(uuidString);
-            PlayerHomes homes = (PlayerHomes) config.get(uuidString);
+        for (String uuidString : config.getKeys(false)){ //get the uuid out of the config and loop through it
+            UUID uuid = UUID.fromString(uuidString);// convert the string into an actualy uuid
+            PlayerHomes homes = (PlayerHomes) config.get(uuidString); // cast the Playerhomes and safe it into an instance
             //load the data into the hashmap
             HomeManager.getInstance().getPlayerIdHashMap().put(uuid, homes);
         }
