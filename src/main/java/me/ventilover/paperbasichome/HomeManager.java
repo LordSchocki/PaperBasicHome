@@ -5,12 +5,13 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 
-public class HomeManager { //singelton class for management
+public class HomeManager { //singleton class for management
 
     private static HomeManager instance;
 
@@ -22,6 +23,8 @@ public class HomeManager { //singelton class for management
 
     private final HashMap<Player,Integer> playerTasks = new HashMap<>(); //Hashmap for every player scheduler
 
+    JavaPluginProvider provider = new JavaPluginProvider(); //provider
+
     private HomeManager(){
         //private constructor to interrupt init
     }
@@ -32,6 +35,10 @@ public class HomeManager { //singelton class for management
 
     public void detachPlayerHomesHashMap(Player player){
         playerHomesHashMap.remove(player); //remove the player from the session (used on leave listener)
+    }
+
+    public JavaPlugin getJavaPlugin (){
+        return provider.getPlugin();
     }
 
     public static HomeManager getInstance() { //to get the homemanager
@@ -52,6 +59,21 @@ public class HomeManager { //singelton class for management
     public PlayerHomes getPlayerHomesClass(Player player){ //method to get PlayerHomes Instance from the session hashmap
         // (useful for teleportation)
         return playerHomesHashMap.get(player);
+
+    }
+
+    public void removeHome(Player player,String homeName) throws Exception {
+        //method to remove a home
+        PlayerHomes playerHomes = getPlayerHomesClass(player);
+
+        if (!playerHomes.checkIfPlayerHasHomes()){
+            player.sendMessage(makeErrorMessage("You don't have any homes to delete"));
+        }
+        else {
+            Home homeToRemove = playerHomes.getHomeByName(homeName);
+            playerHomes.deletePlayerHome(homeToRemove);
+            player.sendMessage(makeConfirmMessage("Successfully deleted the home"));
+        }
 
     }
 
