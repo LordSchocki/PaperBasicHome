@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomeTeleportCommand extends Command implements TabCompleter {
 
@@ -101,10 +103,18 @@ public class HomeTeleportCommand extends Command implements TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (command.getName().equalsIgnoreCase("home")){ //auto complete for the home command
             if (commandSender instanceof Player player){ //check if it is even a player
-                // and is typing
-                return HomeManager.getInstance().getPlayerHomesClass(player).getHomeNameArrayList();//return the list as an arraylist of the home names
+                List<String> homeNames = HomeManager.getInstance().getPlayerHomesClass(player).getHomeNameArrayList();
+                if (homeNames == null){
+                    return Collections.emptyList();
+                }
+
+                if (strings.length == 1){
+                    return homeNames.stream()
+                            .filter(name -> name.toLowerCase().startsWith(strings[0].toLowerCase()))
+                            .collect(Collectors.toList());
+                }
             }
         }
-        return null; //else return nothing
+        return Collections.emptyList(); //else return nothing
     }
 }
