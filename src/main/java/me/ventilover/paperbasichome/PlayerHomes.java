@@ -17,7 +17,6 @@ public class PlayerHomes {
     public void createPlayerHome(Location location, String homeName){
         //class for creating the home
         if (checkHomeCapacityLessThanThree()){
-
             homeArrayList.add(new Home(location,homeName)); // add the home into the arraylist
         }
     }
@@ -28,6 +27,12 @@ public class PlayerHomes {
 
     public boolean checkIfPlayerHasHomes(){ //returns true if the player has homes
         return !homeArrayList.isEmpty();
+    }
+
+    public void deletePlayerHome(Home home){
+        if (!homeArrayList.isEmpty()){
+            homeArrayList.remove(home);
+        }
     }
 
     public ArrayList<String> getHomeNameArrayList(){// method to get the homes into an home name array list
