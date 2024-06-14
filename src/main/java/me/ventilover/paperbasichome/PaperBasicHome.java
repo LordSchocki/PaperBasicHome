@@ -22,10 +22,12 @@ public final class PaperBasicHome extends JavaPlugin {
         Command setHome = new SetHomeCommand();
         Command homeTeleport = new HomeTeleportCommand();
         Command homeListCmd = new HomeListCommand();
+        Command delHomeCmd = new RemoveHomeCommand();
 
         commandMap.register("sethome",setHome);
         commandMap.register("home",homeTeleport);
         commandMap.register("homes",homeListCmd);
+        commandMap.register("delhome",delHomeCmd);
         // register the event listener
         Bukkit.getPluginManager().registerEvents(new JoinListener(),this);
         Bukkit.getPluginManager().registerEvents(new TeleportMoveListener(),this);
