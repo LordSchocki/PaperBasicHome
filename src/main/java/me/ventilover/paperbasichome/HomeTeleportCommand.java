@@ -88,7 +88,7 @@ public class HomeTeleportCommand extends Command{
                 player.sendMessage(HomeManager.getInstance().makeErrorMessage("You do not have valid Permissions"));
             }
             if (strings.length != 1){
-                player.sendMessage("Please enter one valid home name!");
+                player.sendMessage(HomeManager.getInstance().makeErrorMessage("Please enter a valid home name!"));
                 return false;
             }
             else {
