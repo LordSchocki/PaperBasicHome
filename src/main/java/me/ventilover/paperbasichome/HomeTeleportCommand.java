@@ -4,17 +4,12 @@ package me.ventilover.paperbasichome;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
-public class HomeTeleportCommand extends Command implements TabCompleter {
+public class HomeTeleportCommand extends Command{
 
     JavaPluginProvider provider;
 
@@ -102,24 +97,7 @@ public class HomeTeleportCommand extends Command implements TabCompleter {
         }
     }
 
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if (command.getName().equalsIgnoreCase("home")){ //auto complete for the home command
-            if (commandSender instanceof Player player){ //check if it is even a player
-                List<String> homeNames = HomeManager.getInstance().getPlayerHomesClass(player).getHomeNameArrayList();
-                if (homeNames == null){
-                    return Collections.emptyList();
-                }
 
-                if (strings.length == 1){
-                    return homeNames.stream()
-                            .filter(name -> name.toLowerCase().startsWith(strings[0].toLowerCase()))
-                            .collect(Collectors.toList());
-                }
-            }
-        }
-        return Collections.emptyList(); //else return nothing
-    }
 
     public void makePlayerInvincible(Player player){ //method to make the player invincible after the tp
         player.setInvulnerable(true);
