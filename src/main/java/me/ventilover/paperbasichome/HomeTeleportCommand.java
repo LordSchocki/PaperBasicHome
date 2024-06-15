@@ -38,6 +38,7 @@ public class HomeTeleportCommand extends Command implements TabCompleter {
                 // if the scheduler doesn't get canceled
                 HomeManager.getInstance().getPlayerHomesClass(player).setTeleportingFalse();//stop teleporting
                 player.sendMessage(HomeManager.getInstance().makeConfirmMessage("Teleported home!"));
+                makePlayerInvincible(player); //make invincible after teleport
             }, 5L * 5L);
             // now put the task it into the hashmap
             HomeManager.getInstance().getPlayerTasks().put(player,taskId);
@@ -70,7 +71,7 @@ public class HomeTeleportCommand extends Command implements TabCompleter {
         try{
             Home home = homeManager.getPlayerHome(player,homeName); //try block to catch if the home is null
             teleportPlayerToHome(player,home);
-            makePlayerInvincible(player); //make invincible after teleport
+
 
         }catch (Exception ex){
             player.sendMessage(homeManager.makeErrorMessage("No such home name!"));
