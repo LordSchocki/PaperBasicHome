@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,6 +70,7 @@ public class HomeTeleportCommand extends Command implements TabCompleter {
         try{
             Home home = homeManager.getPlayerHome(player,homeName); //try block to catch if the home is null
             teleportPlayerToHome(player,home);
+            makePlayerInvincible(player); //make invincible after teleport
 
         }catch (Exception ex){
             player.sendMessage(homeManager.makeErrorMessage("No such home name!"));
@@ -116,5 +118,15 @@ public class HomeTeleportCommand extends Command implements TabCompleter {
             }
         }
         return Collections.emptyList(); //else return nothing
+    }
+
+    public void makePlayerInvincible(Player player){ //method to make the player invincible after the tp
+        player.setInvulnerable(true);
+        new BukkitRunnable(){
+            @Override
+            public void run(){
+                player.setInvulnerable(false);
+            }
+        }.runTaskLater(HomeManager.getInstance().getJavaPlugin(), 20L * 2);
     }
 }
