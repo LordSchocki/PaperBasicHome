@@ -26,8 +26,15 @@ public class SetHomeCommand extends Command {
         if (commandSender instanceof Player player){ //cast the sender to a player
             if (!player.hasPermission("paperbasichome.sethome")){
                 player.sendMessage(HomeManager.getInstance().makeErrorMessage("You do not have valid Permissions"));
+                return true;
             }
 
+            if (homeManager.getPlayerHomesClass(player).checkIfHomeAlreadyExist(homeName)){
+                //home name already given
+                player.sendMessage(homeManager.makeErrorMessage("That home name already exists!"));
+                return true;
+
+            }
             if (homeManager.getPlayerHomesClass(player).checkHomeCapacityLessThanThree()){//check if the player already has 3 homes
 
                 homeManager.addPlayerHome(player,player.getLocation(),homeName);// if they don't have 3 homes,
@@ -36,6 +43,7 @@ public class SetHomeCommand extends Command {
             else {
                 player.sendMessage(homeManager.makeErrorMessage("You already have 3 homes!"));
             }
+            return true;
         }
 
 

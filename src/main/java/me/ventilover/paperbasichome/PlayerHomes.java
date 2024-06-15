@@ -35,6 +35,16 @@ public class PlayerHomes {
         }
     }
 
+    public boolean checkIfHomeAlreadyExist(String homeName){
+        for (String home : getHomeNameArrayList()){
+            if (home.equalsIgnoreCase(homeName)){
+                return true;
+            }
+        }
+        //code here is reached if the home name does not exit
+        return false;
+    }
+
     public ArrayList<String> getHomeNameArrayList(){// method to get the homes into an home name array list
         //useful for the auto complete
 
