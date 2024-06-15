@@ -1,4 +1,4 @@
-Hello there, this is my attempt to make an pretty okay plugin for the start.
-It is currently in development and not finishied yet if u want to build it just copy the repo
+Hello there, this is my attempt to make a pretty okay plugin for the start.
+It is currently in development and not finished yet if you want to build it, just copy the repo
 
-In the future i will provide an finished jar
+In the future I will provide a finished jar
