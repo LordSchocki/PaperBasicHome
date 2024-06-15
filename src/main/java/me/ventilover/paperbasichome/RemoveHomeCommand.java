@@ -22,7 +22,7 @@ public class RemoveHomeCommand extends Command {
         Player player = (Player) commandSender;
 
         if (!player.hasPermission("paperbasichome.delhome")){
-            player.sendMessage(HomeManager.getInstance().makeErrorMessage("You do not have valid Permissions"));
+            player.sendMessage(HomeManager.getInstance().makeErrorMessage("You do not have valid Permissions")); //check the permissions
             return true;
         }
         String homeName = strings[0]; //the home name from the argument
@@ -39,7 +39,7 @@ public class RemoveHomeCommand extends Command {
     public boolean checkIfValidCommand(CommandSender commandSender, String[] strings){
         if (commandSender instanceof  Player player){
             if (strings.length != 1){
-                player.sendMessage(HomeManager.getInstance().makeErrorMessage("Please enter a valid home name"));
+                player.sendMessage(HomeManager.getInstance().makeErrorMessage("Please enter a valid home name")); //check if the command is valid
                 return false;
             }
             else {

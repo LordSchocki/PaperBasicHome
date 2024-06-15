@@ -29,7 +29,7 @@ public class DataSafeManager { //singleton class
 
     public void saveHomesToFile(){ //to save homes into the yaml
         File dataFolder = getDataFolder(); //get the directory
-        if(!dataFolder.exists()){ //if it doesn't exist yet create it
+        if(!dataFolder.exists()){ //if it doesn't exist yet, create it
             boolean result = dataFolder.mkdirs();
             if (!result){
                 HomeManager.getInstance().getJavaPlugin().getLogger().info("Did not achieve to create a Folder for data"); //error message if mkdirs dont work

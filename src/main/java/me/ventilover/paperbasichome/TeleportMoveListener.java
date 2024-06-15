@@ -47,7 +47,7 @@ public class TeleportMoveListener implements Listener {
         Location from = event.getFrom();
         Location to = event.getTo();
 
-        //Check if location is diffrent
+        //Check if the location is different
         return from.getBlockX() != to.getBlockX() || from.getBlockY() != to.getBlockY() || from.getBlockZ() != to.getBlockZ(); //false if player has just looked
     }
 }
