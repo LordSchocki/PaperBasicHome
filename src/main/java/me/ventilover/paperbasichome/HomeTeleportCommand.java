@@ -8,6 +8,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class HomeTeleportCommand extends Command{
 
@@ -17,6 +21,7 @@ public class HomeTeleportCommand extends Command{
         super("home");
         this.setDescription("Command to teleport home");
         provider = new JavaPluginProvider();
+
     }
 
     public void teleportPlayerToHome(Player player,Home home){
@@ -97,6 +102,24 @@ public class HomeTeleportCommand extends Command{
         }
     }
 
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
+        if (alias.equalsIgnoreCase("home")){ //auto complete for the home command
+            if (sender instanceof Player player){ //check if it is even a player
+                List<String> homeNames = HomeManager.getInstance().getPlayerHomesClass(player).getHomeNameArrayList();
+                if (homeNames == null){
+                    return Collections.emptyList();
+                }
+
+                if (args.length == 1){
+                    return homeNames.stream()
+                            .filter(name -> name.toLowerCase().startsWith(args[0].toLowerCase()))
+                            .collect(Collectors.toList());
+                }
+            }
+        }
+        return Collections.emptyList(); //else return nothing
+    }
 
 
     public void makePlayerInvincible(Player player){ //method to make the player invincible after the tp
