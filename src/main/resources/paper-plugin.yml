@@ -2,6 +2,11 @@ name: PaperBasicHome
 version: '${version}'
 main: me.ventilover.paperbasichome.PaperBasicHome
 api-version: '1.20'
+description: A basic home plugin to set homes max to 3
+authors:
+  - LordSchocki
+  - Hansopa
+  - Orbey
 
 
 commands:
