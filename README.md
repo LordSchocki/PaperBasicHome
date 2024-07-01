@@ -1,4 +1,5 @@
-Hello there, this is my attempt to make a pretty okay plugin for the start.
-It is currently in development and not finished yet if you want to build it, just copy the repo
+Hello there, this is my small little home plugin with max 3 homes.
 
-In the future I will provide a finished jar
+It is working fine and its okay i think you can copy the Jar in the JarPlugin folder if you want to use it yourself
+
+This was my first real plugin and im proud even if its scrappy xD
